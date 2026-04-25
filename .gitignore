@@ -1,0 +1,16 @@
+# macOS system files
+.DS_Store
+Library/
+
+# VS Code internal extension folders (never commit these)
+.vscode/extensions/
+
+# Python virtual environment
+venv/
+
+# iCloud FileProvider internal folders
+*/FileProvider/*
+
+# Python cache
+__pycache__/
+*.pyc
