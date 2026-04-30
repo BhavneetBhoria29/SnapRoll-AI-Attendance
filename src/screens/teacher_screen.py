@@ -27,10 +27,8 @@ def teacher_screen():
 
     if screen == "login":
         teacher_screen_login()
-
     elif screen == "register":
         teacher_screen_register()
-
     elif screen == "dashboard":
         teacher_dashboard()
 
@@ -85,10 +83,8 @@ def teacher_dashboard():
 
     if tab == "take_attendance":
         teacher_tab_take_attendance()
-
     elif tab == "manage_subjects":
         teacher_tab_manage_subject()
-
     elif tab == "attendance_records":
         teacher_tab_attendance_records()
 
@@ -123,12 +119,10 @@ def teacher_tab_take_attendance():
         if st.button('Add Photos', type='primary', icon=':material/photo_camera:', use_container_width=True):
             st.session_state.show_add_photos_dialog = True
 
-    # FIXED: This block was OUTSIDE the function before
     if st.session_state.get('show_add_photos_dialog'):
         st.session_state.show_add_photos_dialog = False
         add_photos_dialog()
 
-    # Show captured photos
     if st.session_state.attendance_images:
         st.subheader('Captured Photos')
         img_cols = st.columns(4)
@@ -136,7 +130,6 @@ def teacher_tab_take_attendance():
             with img_cols[i % 4]:
                 st.image(img, use_container_width=True, caption=f"Photo {i+1}")
 
-    # Action buttons
     c1, c2, c3 = st.columns(3)
 
     with c1:
@@ -197,7 +190,6 @@ def teacher_tab_take_attendance():
             voice_attendance_dialog(selected_subject_id)
 
 
-
 def teacher_tab_manage_subject():
     teacher_id = st.session_state.teacher_data['teacher_id']
     col1, col2 = st.columns(2)
@@ -230,6 +222,7 @@ def teacher_tab_manage_subject():
     else:
         st.info("NO SUBJECT FOUND, CREATE ABOVE")
 
+
 def teacher_tab_attendance_records():
     st.header("Attendance Records")
 
@@ -254,7 +247,6 @@ def teacher_tab_attendance_records():
 
     df = pd.DataFrame(data)
 
-    # Build summary table
     summary = (
         df.groupby(['ts_group', 'Time', 'Subject', 'Subject Code'])
         .agg(
@@ -264,7 +256,6 @@ def teacher_tab_attendance_records():
         .reset_index()
     )
 
-    # Build attendance stats string
     summary['Attendance Stats'] = (
         "✅ " + summary['Present_Count'].astype(str)
         + " / "
@@ -272,7 +263,6 @@ def teacher_tab_attendance_records():
         + " Students"
     )
 
-    # Display clean table
     display_df = summary.sort_values(by='ts_group', ascending=False)[
         ["Time", "Subject", "Subject Code", "Attendance Stats"]
     ]
@@ -286,7 +276,9 @@ def teacher_screen_login():
         header_dashboard()
     with c2:
         if st.button("Go Back to Home", type="secondary"):
-            st.session_state.teacher_login_type = None
+            st.session_state["Login_Type"] = None
+            st.query_params.clear()
+            st.session_state.teacher_login_type = "login"
             st.rerun()
 
     st.header("Login using password", anchor=False)
@@ -341,7 +333,9 @@ def teacher_screen_register():
         header_dashboard()
     with c2:
         if st.button("Go Back to Home", type="secondary"):
-            st.session_state.teacher_login_type = None
+            st.session_state["Login_Type"] = None
+            st.query_params.clear()
+            st.session_state.teacher_login_type = "login"
             st.rerun()
 
     st.header("Register Your Profile")

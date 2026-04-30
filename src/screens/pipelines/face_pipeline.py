@@ -1,3 +1,7 @@
+import importlib.resources
+import sys
+sys.modules.setdefault("pkg_resources", type(sys)("pkg_resources"))
+sys.modules["pkg_resources"].resource_filename = lambda package, resource: str(importlib.resources.files(package) / resource)
 
 
 import dlib
