@@ -1,4 +1,3 @@
-streamlit
 
 #utilities
 
@@ -17,5 +16,5 @@ segno
 pillow
 streamlit
 
-libross
+librosa
 resemblyzer
