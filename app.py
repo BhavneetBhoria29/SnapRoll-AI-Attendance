@@ -1,3 +1,10 @@
+import importlib.resources
+import sys
+if "pkg_resources" not in sys.modules:
+    _pkg = type(sys)("pkg_resources")
+    _pkg.resource_filename = lambda package, resource: str(importlib.resources.files(package) / resource)
+    sys.modules["pkg_resources"] = _pkg
+
 
 import streamlit as st
 
@@ -8,7 +15,7 @@ from src.screens.teacher_screen import teacher_screen
 from src.screens.components.dialog_auto_enroll import auto_enroll_dialog
 
 def main():
-    st.setup_page_config(
+    st.set_page_config(
          page_title="SnapRoll - Smart Attendance System",
          page_icon=":school:",
          layout="wide",
