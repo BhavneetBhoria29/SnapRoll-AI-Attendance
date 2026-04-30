@@ -1,9 +1,12 @@
 import importlib.resources
+import importlib.metadata
 import sys
 if "pkg_resources" not in sys.modules:
     _pkg = type(sys)("pkg_resources")
     _pkg.resource_filename = lambda package, resource: str(importlib.resources.files(package) / resource)
+    _pkg.get_distribution = lambda name: type("D", (), {"version": importlib.metadata.version(name)})()
     sys.modules["pkg_resources"] = _pkg
+
 
 
 import streamlit as st
